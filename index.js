@@ -56,6 +56,26 @@ async function run() {
       );
       res.send({ success: true, message: "Delivered Success!" });
     });
+
+    // put stock book
+
+    app.put("/stock-book/:id", async (req, res) => {
+      const id = req.params.id;
+      const updateDelivery = req.body;
+      const filter = { _id: ObjectId(id) };
+      const options = { upsert: true };
+      const updateDoc = {
+        $set: {
+          Stock: updateDelivery.Stock,
+        },
+      };
+      const result = await booksCollection.updateOne(
+        filter,
+        updateDoc,
+        options
+      );
+      res.send({ success: true, message: "Stock Success!" });
+    });
   } finally {
     // await client.close();
   }
