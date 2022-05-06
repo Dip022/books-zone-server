@@ -28,6 +28,15 @@ async function run() {
       res.send(result);
     });
 
+    //get all my item
+    app.get("/my-book/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = { email };
+      const cursor = booksCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
     //get single book
     app.get("/book/:id", async (req, res) => {
       const id = req.params.id;
