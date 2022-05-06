@@ -84,6 +84,16 @@ async function run() {
       const result = await booksCollection.insertOne(book);
       res.send({ success: true, message: "book add Success!" });
     });
+
+    //Delete book
+
+    app.delete("/remove-book/:id", async (req, res) => {
+      const id = req.params.id;
+      console.log(id);
+      const query = { _id: ObjectId(id) };
+      const result = await booksCollection.deleteOne(query);
+      res.send({ success: true, message: "Book Delete Success!" });
+    });
   } finally {
     // await client.close();
   }
