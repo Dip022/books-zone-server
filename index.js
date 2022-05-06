@@ -76,6 +76,14 @@ async function run() {
       );
       res.send({ success: true, message: "Stock Success!" });
     });
+
+    // post add book
+
+    app.post("/add-book", async (req, res) => {
+      const book = req.body;
+      const result = await booksCollection.insertOne(book);
+      res.send({ success: true, message: "book add Success!" });
+    });
   } finally {
     // await client.close();
   }
