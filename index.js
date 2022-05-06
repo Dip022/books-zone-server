@@ -42,7 +42,6 @@ async function run() {
       const id = req.params.id;
       const updateDelivery = req.body;
       const filter = { _id: ObjectId(id) };
-      console.log(filter);
       const options = { upsert: true };
       const updateDoc = {
         $set: {
@@ -89,10 +88,34 @@ async function run() {
 
     app.delete("/remove-book/:id", async (req, res) => {
       const id = req.params.id;
-      console.log(id);
       const query = { _id: ObjectId(id) };
       const result = await booksCollection.deleteOne(query);
       res.send({ success: true, message: "Book Delete Success!" });
+    });
+
+    // put update book info
+
+    app.put("/update-book/:id", async (req, res) => {
+      const id = req.params.id;
+      const updateBook = req.body;
+      const filter = { _id: ObjectId(id) };
+      const options = { upsert: true };
+      const updateDoc = {
+        $set: {
+          name: updateBook.name,
+          price: updateBook.price,
+          image: updateBook.image,
+          Stock: updateBook.Stock,
+          SupplierName: updateBook.SupplierName,
+          description: updateBook.description,
+        },
+      };
+      const result = await booksCollection.updateOne(
+        filter,
+        updateDoc,
+        options
+      );
+      res.send({ success: true, message: "Update Success!" });
     });
   } finally {
     // await client.close();
