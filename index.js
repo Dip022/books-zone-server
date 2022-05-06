@@ -37,6 +37,25 @@ async function run() {
       res.send(result);
     });
 
+    //get pegination item
+    app.get("/book-list", async (req, res) => {
+      const page = parseInt(req.query.page);
+      const limit = parseInt(req.query.limit);
+      const query = {};
+      const cursor = booksCollection.find(query);
+      const result = await cursor
+        .skip(page * limit)
+        .limit(limit)
+        .toArray();
+      res.send(result);
+    });
+
+    // get book count
+    app.get("/book-count", async (req, res) => {
+      const count = await booksCollection.estimatedDocumentCount();
+      res.send({ count });
+    });
+
     //get single book
     app.get("/book/:id", async (req, res) => {
       const id = req.params.id;
