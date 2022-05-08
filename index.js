@@ -58,7 +58,7 @@ async function run() {
     app.get("/my-book/:email", verifyJWT, async (req, res) => {
       const decodedEmail = req.decoded.email;
       const email = req.params.email;
-
+      console.log(email);
       if (email === decodedEmail) {
         const query = { email };
         const cursor = booksCollection.find(query);
